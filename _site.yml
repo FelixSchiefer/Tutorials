@@ -3,7 +3,7 @@ navbar:
   title: "HOME"
   left:
     - text: "First Page"
-      href: index.html
+      href: page1.html
 output_dir: "."
 output:
   html_document:
