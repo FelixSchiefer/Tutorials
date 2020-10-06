@@ -1,0 +1,6 @@
+name: "Tutorials"
+navbar:
+  title: "HOME"
+  left:
+    - text: "First Page"
+      href: index.html
