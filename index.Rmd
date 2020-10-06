@@ -1,7 +1,6 @@
 ---
-title: "First page"
+title: "Remote sensing tutorials"
 author: "Felix Schiefer"
-date: "6 Oktober 2020"
 output: html_document
 ---
 

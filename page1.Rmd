@@ -1,9 +1,5 @@
 ---
-<<<<<<< HEAD
 title: "here some additional stuff 2"
-=======
-title: "here some stuff"
->>>>>>> c22ca2120034e408067a7c8f1b0736c002e11b62
 author: "Felix Schiefer"
 date: "6 Oktober 2020"
 output: html_document
