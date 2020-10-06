@@ -4,3 +4,8 @@ navbar:
   left:
     - text: "First Page"
       href: index.html
+output_dir: "."
+output:
+  html_document:
+    theme: yeti
+    highlight: textmate
