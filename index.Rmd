@@ -6,6 +6,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+\
+\
+**This webpage provides you with some *usefull* R code snippets and tutorials on remote sensing.** <br><br>
 
 ***
 
