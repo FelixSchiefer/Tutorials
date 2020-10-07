@@ -16,8 +16,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ***
 
-This webpage provides you with some *usefull* R code snippets and tutorials on remote sensing.
-
 Voices:<br>
 <blockquote>
 <p>Jannika Schäfer: *This is such a beautiful webpage!*</p>
