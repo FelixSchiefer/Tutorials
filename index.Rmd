@@ -39,7 +39,7 @@ Or this drone flight over Hainich National Park in September 2019:
 
 ## Code snippets
 
-**Here** I just test stuff
+**Here** I just test stuff  
 
 ```{r}
 paste("Hello", "World!")
