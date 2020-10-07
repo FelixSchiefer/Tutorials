@@ -1,6 +1,5 @@
 ---
 title: "Remote sensing tutorials"
-author: "Felix Schiefer"
 output: html_document
 ---
 
@@ -8,21 +7,43 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+***
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This webpage provides you with some *usefull* R code snippets and tutorials on remote sensing.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Voices:<br>
+<blockquote>
+<p>Jannika Schäfer: *This is such a beautiful page!*</p>
+</blockquote>
+<blockquote>
+<p>Dikko Gaffna: *Wow. Absolutely amazing!*</p>
+</blockquote>
 
-```{r cars}
-summary(cars)
+
+## Random stuff
+<br>
+See this nice image of Karlsruhe:<br>
+<br>
+![](http://www.livinginkarlsruhe.com/wp-content/uploads/2017/09/KupferstichZirkel_klein.jpg)
+<br>
+<br>
+Or this drone flight over Hainich National Park in September 2019:<br>
+![](index_files/figures-html/Hainich.gif)
+
+
+## Code snippets
+
+**Here** I just test stuff
+
+```{r}
+paste("Hello", "World!")
 ```
 
 ## Including Plots
 
 You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
+```{r, echo=FALSE}
 plot(pressure)
 ```
 
