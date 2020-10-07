@@ -32,7 +32,7 @@ See this nice image of Karlsruhe:<br>
 <br>
 Or this drone flight over Hainich National Park in September 2019:
 <br>
-![](index_files/figures-html/Hainich.gif)
+![](index_files/figure-html/Hainich.gif)
 
 
 ## Code snippets
