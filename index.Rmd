@@ -1,6 +1,5 @@
 ---
 title: "Remote sensing tutorials"
-# output: html_document
 output: html_document
   # prettydoc::html_pretty:
   #   theme: cayman
@@ -28,7 +27,7 @@ Voices:<br>
 </blockquote>
 
 
-## Random stuff
+## Random stuff {#random}
 <br>
 See this nice image of Karlsruhe:<br>
 <br>
