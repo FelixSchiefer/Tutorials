@@ -1,13 +1,18 @@
 ---
 title: "Remote sensing tutorials"
+# output: html_document
 output: html_document
+  # prettydoc::html_pretty:
+  #   theme: cayman
+  #   highlight: github
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-\
-\
+
+***
+
 **This webpage provides you with some *usefull* R code snippets and tutorials on remote sensing.** <br><br>
 
 ***
@@ -16,7 +21,7 @@ This webpage provides you with some *usefull* R code snippets and tutorials on r
 
 Voices:<br>
 <blockquote>
-<p>Jannika Schäfer: *This is such a beautiful page!*</p>
+<p>Jannika Schäfer: *This is such a beautiful webpage!*</p>
 </blockquote>
 <blockquote>
 <p>Dikko Gaffna: *Wow. Absolutely amazing!*</p>

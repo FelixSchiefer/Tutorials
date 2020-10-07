@@ -6,6 +6,9 @@ navbar:
       href: page1.html
 output_dir: "."
 output:
-  html_document:
-    theme: yeti
-    highlight: textmate
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+#  html_document:
+#    theme: sandstone
+#    highlight: textmate
