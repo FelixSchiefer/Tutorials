@@ -27,7 +27,8 @@ See this nice image of Karlsruhe:<br>
 ![](http://www.livinginkarlsruhe.com/wp-content/uploads/2017/09/KupferstichZirkel_klein.jpg)
 <br>
 <br>
-Or this drone flight over Hainich National Park in September 2019:<br>
+Or this drone flight over Hainich National Park in September 2019:
+<br>
 ![](index_files/figures-html/Hainich.gif)
 
 
