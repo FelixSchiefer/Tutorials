@@ -1,6 +1,6 @@
 name: "Tutorials"
 navbar:
-  title: "HOME"
+  title: "Tutorials"
   left:
     - text: "First Page"
       href: page1.html
@@ -8,11 +8,12 @@ navbar:
       href: deadwood.html
 output_dir: "."
 output:
-#  prettydoc::html_pretty:
-#    theme: cayman
-#    highlight: github
-  html_document:
-    theme: sandstone
+ # prettydoc::html_pretty:
+   # theme: cayman
+   # highlight: github
+   # toc: yes
+  bookdown::html_document2:
+    theme: yeti
     highlight: textmate
     toc: yes
     toc_float: true

@@ -1,6 +1,8 @@
 ---
 title: "Remote sensing tutorials"
-output: html_document
+output:
+  bookdown::html_document2:
+    number_sections: false
   # prettydoc::html_pretty:
   #   theme: cayman
   #   highlight: github

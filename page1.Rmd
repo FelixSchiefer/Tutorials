@@ -2,7 +2,9 @@
 title: "here some additional stuff 2"
 author: "Felix Schiefer"
 date: "6 Oktober 2020"
-output: html_document
+output: 
+  bookdown::html_document2:
+    number_sections: false
   # prettydoc::html_pretty:
   #   theme: cayman
   #   highlight: github

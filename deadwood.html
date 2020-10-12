@@ -15,7 +15,7 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -114,33 +114,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 61px;
+  padding-top: 45px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h2 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h3 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h4 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h5 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h6 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .dropdown-submenu {
   position: relative;
@@ -352,7 +352,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">HOME</a>
+      <a class="navbar-brand" href="index.html">Tutorials</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -380,8 +380,11 @@ div.tocify {
 </div>
 
 
+<pre class="r"><code>1+1</code></pre>
+<pre><code>## [1] 2</code></pre>
 <p><br><br></p>
-<p>In this tutorial you will learn how to map deadwood from RGB drone imagery using Deep Learning. The data used in this tutorial can be found <a href="https://bwstaff-my.sharepoint.com/personal/felix_schiefer_bwstaff_de/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffelix%5Fschiefer%5Fbwstaff%5Fde%2FDocuments%2FRS%5FTutorials%2FDeepLearning">here</a></p>
+<p>In this tutorial you will learn how to map deadwood from RGB drone imagery using Deep Learning.
+The data used in this tutorial can be found <a href="https://bwstaff-my.sharepoint.com/personal/felix_schiefer_bwstaff_de/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffelix%5Fschiefer%5Fbwstaff%5Fde%2FDocuments%2FRS%5FTutorials%2FDeepLearning">here</a></p>
 <p>In this tutorial we will use R.</p>
 <p>A step-by-step guide how to install tensorflow can be found <a href="">here</a></p>
 <p><br><br></p>
@@ -408,6 +411,7 @@ div.tocify {
 </ul></li>
 </ol>
 <p><br><br></p>
+<hr />
 </div>
 <div id="data" class="section level1">
 <h1>Data acquisiton</h1>
@@ -416,7 +420,9 @@ div.tocify {
 </div>
 <div id="label" class="section level3">
 <h3>Data labeling</h3>
+<p>For this tutorial you don’t need to conduct any UAV flights or reference data labeling and you can go directly to this <a href="https://bwstaff-my.sharepoint.com/personal/felix_schiefer_bwstaff_de/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffelix%5Fschiefer%5Fbwstaff%5Fde%2FDocuments%2FRS%5FTutorials%2FDeepLearning">link</a> and download the data. The UAV imagery is stored in the subfolder <em>UAV</em>, whereas the deadwood polygons can be found in the subfolder <em>delineation</em>.</p>
 <p><br><br></p>
+<hr />
 </div>
 </div>
 <div id="prep" class="section level1">
