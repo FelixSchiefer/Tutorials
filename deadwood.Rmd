@@ -1,0 +1,39 @@
+---
+title: "Mapping standing deadwood from RGB drone imagery "
+date: "12 Oktober 2020"
+output:
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br><br>
+
+In this tutorial you will learn how to map deadwood from RGB drone imagery using Deep Learning.
+
+<br><br>
+
+# Overview {#overview}
+
+
+ToDo:
+
+* Data acquisition
+    + UAV flights
+    + delineation
+    + download link
+* scripts
+    + tiling
+    + unet
+    + prediction / evaluation
+
+<br><br>
+
+# Data acquisiton {#data}
+
+<br><br>
+
+# Data preparation {#preparation}

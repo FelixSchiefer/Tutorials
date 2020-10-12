@@ -4,6 +4,8 @@ navbar:
   left:
     - text: "First Page"
       href: page1.html
+    - text: "Deadwood"
+      href: deadwood.html
 output_dir: "."
 output:
 #  prettydoc::html_pretty:
