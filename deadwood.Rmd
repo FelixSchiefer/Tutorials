@@ -10,11 +10,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
-1+1
-```
-
-
 <br><br>
 
 In this tutorial you will learn how to map deadwood from RGB drone imagery using Deep Learning.
@@ -42,9 +37,9 @@ A step-by-step guide how to install tensorflow can be found [here]()
     + [Accuracy assesment](#accuracy)
     + [Prediction](#prediction)
 
-<br><br>
-
 ***
+
+<br><br>
 
 # Data acquisiton {#data}
 
@@ -55,18 +50,51 @@ A step-by-step guide how to install tensorflow can be found [here]()
 
 For this tutorial you don't need to conduct any UAV flights or reference data labeling and you can go directly to this [link](https://bwstaff-my.sharepoint.com/personal/felix_schiefer_bwstaff_de/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffelix%5Fschiefer%5Fbwstaff%5Fde%2FDocuments%2FRS%5FTutorials%2FDeepLearning) and download the data. The UAV imagery is stored in the subfolder *UAV*, whereas the deadwood polygons can be found in the subfolder *delineation*. 
 
-<br><br>
-
 ***
+
+<br><br>
 
 # Data preparation {#prep}
 
+To begin, we first need to load our data:
+```{r load-data, results='hide', warning=FALSE}
+dataDir  <- "C:/Users/FeSch/Desktop/TutTest/"
+sites    <- list.files(path = dataDir, pattern = "tif", recursive = T, full.names = T)
+
+# load first scene of drone imagery
+uav      <- raster::stack(sites[1])
+
+# load area of interest
+AOI      <- rgdal::readOGR(dsn = "C:/Users/FeSch/Desktop/TutTest/sites/study_sites.shp")
+
+# load deadwood delineation
+deadwood <- rgdal::readOGR(dsn = "C:/Users/FeSch/Desktop/TutTest/delineation/poly_deadwood.shp")
+```
+
+We crop the raster stack to the area of interest and plot the results. 
+
+```{r crop-and-plot, eval=FALSE}
+AOI1 <- AOI[AOI$plot_no == AOI$plot_no[1], ]
+
+uav  <- raster::crop(uav, AOI1)
+
+plotRGB(uav, stretch = "lin")
+lines(AOI1, col = "red", lwd = 3)
+lines(deadwood, col = "yellow", lwd = 2)
+```
+![](deadwood_files/figure-html/crop-and-plot.png)
 
 ### Tiling {#tile}
 
+
+
 ### Data spliting {#split}
 
+
+
 ### Input pipeline {#pipeline}
+
+***
 
 <br><br>
 

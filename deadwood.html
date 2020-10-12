@@ -380,8 +380,6 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>1+1</code></pre>
-<pre><code>## [1] 2</code></pre>
 <p><br><br></p>
 <p>In this tutorial you will learn how to map deadwood from RGB drone imagery using Deep Learning.
 The data used in this tutorial can be found <a href="https://bwstaff-my.sharepoint.com/personal/felix_schiefer_bwstaff_de/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffelix%5Fschiefer%5Fbwstaff%5Fde%2FDocuments%2FRS%5FTutorials%2FDeepLearning">here</a></p>
@@ -410,8 +408,8 @@ The data used in this tutorial can be found <a href="https://bwstaff-my.sharepoi
 <li><a href="#prediction">Prediction</a></li>
 </ul></li>
 </ol>
-<p><br><br></p>
 <hr />
+<p><br><br></p>
 </div>
 <div id="data" class="section level1">
 <h1>Data acquisiton</h1>
@@ -421,12 +419,33 @@ The data used in this tutorial can be found <a href="https://bwstaff-my.sharepoi
 <div id="label" class="section level3">
 <h3>Data labeling</h3>
 <p>For this tutorial you don’t need to conduct any UAV flights or reference data labeling and you can go directly to this <a href="https://bwstaff-my.sharepoint.com/personal/felix_schiefer_bwstaff_de/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffelix%5Fschiefer%5Fbwstaff%5Fde%2FDocuments%2FRS%5FTutorials%2FDeepLearning">link</a> and download the data. The UAV imagery is stored in the subfolder <em>UAV</em>, whereas the deadwood polygons can be found in the subfolder <em>delineation</em>.</p>
-<p><br><br></p>
 <hr />
+<p><br><br></p>
 </div>
 </div>
 <div id="prep" class="section level1">
 <h1>Data preparation</h1>
+<p>To begin, we first need to load our data:</p>
+<pre class="r"><code>dataDir  &lt;- &quot;C:/Users/FeSch/Desktop/TutTest/&quot;
+sites    &lt;- list.files(path = dataDir, pattern = &quot;tif&quot;, recursive = T, full.names = T)
+
+# load first scene of drone imagery
+uav      &lt;- raster::stack(sites[1])
+
+# load area of interest
+AOI      &lt;- rgdal::readOGR(dsn = &quot;C:/Users/FeSch/Desktop/TutTest/sites/study_sites.shp&quot;)
+
+# load deadwood delineation
+deadwood &lt;- rgdal::readOGR(dsn = &quot;C:/Users/FeSch/Desktop/TutTest/delineation/poly_deadwood.shp&quot;)</code></pre>
+<p>We crop the raster stack to the AOI and plot the results.</p>
+<pre class="r"><code>AOI1 &lt;- AOI[AOI$plot_no == AOI$plot_no[1], ]
+
+uav  &lt;- raster::crop(uav, AOI1)
+
+plotRGB(uav, stretch = &quot;lin&quot;)
+lines(AOI1, col = &quot;red&quot;, lwd = 3)
+lines(deadwood, col = &quot;yellow&quot;, lwd = 2)</code></pre>
+<p><img src="deadwood_files/figure-html/crop-and-plot.png" /></p>
 <div id="tile" class="section level3">
 <h3>Tiling</h3>
 </div>
@@ -435,6 +454,7 @@ The data used in this tutorial can be found <a href="https://bwstaff-my.sharepoi
 </div>
 <div id="pipeline" class="section level3">
 <h3>Input pipeline</h3>
+<hr />
 <p><br><br></p>
 </div>
 </div>
