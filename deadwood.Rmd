@@ -15,7 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 In this tutorial you will learn how to map deadwood from RGB drone imagery using Deep Learning.
 The data used in this tutorial can be found [here](https://bwstaff-my.sharepoint.com/personal/felix_schiefer_bwstaff_de/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffelix%5Fschiefer%5Fbwstaff%5Fde%2FDocuments%2FRS%5FTutorials%2FDeepLearning)
 
-In this tutorial we will use R. A step-by-step guide how to install tensorflow can be found [here]() 
+In this tutorial we will use R.
+
+A step-by-step guide how to install tensorflow can be found [here]() 
 
 <br><br>
 
@@ -23,23 +25,44 @@ In this tutorial we will use R. A step-by-step guide how to install tensorflow c
 
 
 1. [Data acquisition](#data)
-    + UAV flights
-    + delineation
-    + download link
+    + [UAV flights](#UAV)
+    + [Delineation](#label)
 2. [Prepare the data](#prep)
-    + tiling
-3. [CNN-based mapping](#CNN)
-    + unet
-    + prediction / evaluation
+    + [Tiling](#tile)
+    + [Data spliting](#split)
+    + [Tfdataset input pipeline](#pipeline)
+3. [CNN-based deadwood mapping](#CNN)
+    + [U-net](#unet)
+    + [Training](#train)
+    + [Accuracy assesment](#accuracy)
+    + [Prediction](#prediction)
 
 <br><br>
 
 # Data acquisiton {#data}
 
+### UAV flights {#UAV}
+
+### Data labeling {#label}
+
 <br><br>
 
 # Data preparation {#prep}
 
+### Tiling {#tile}
+
+### Data spliting {#split}
+
+### Input pipeline {#pipeline}
+
 <br><br>
 
-# U-net CNN {#CNN}
+# CNN-based deadwood mapping {#CNN}
+
+### U-net {#unet}
+
+### Training {#train}
+
+### Accuracy assesment {#assessment}
+
+### Prediction {#prediction}
