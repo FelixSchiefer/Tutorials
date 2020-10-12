@@ -3,7 +3,7 @@ title: "Mapping standing deadwood from RGB drone imagery "
 date: "12 Oktober 2020"
 output:
   html_document:
-    number_sections: true
+    number_sections: false
 ---
 
 ```{r setup, include=FALSE}
@@ -13,20 +13,22 @@ knitr::opts_chunk$set(echo = TRUE)
 <br><br>
 
 In this tutorial you will learn how to map deadwood from RGB drone imagery using Deep Learning.
+The data used in this tutorial can be found [here](https://bwstaff-my.sharepoint.com/personal/felix_schiefer_bwstaff_de/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffelix%5Fschiefer%5Fbwstaff%5Fde%2FDocuments%2FRS%5FTutorials%2FDeepLearning)
+
+In this tutorial we will use R. A step-by-step guide how to install tensorflow can be found [here]() 
 
 <br><br>
 
-# Overview {#overview-page}
+# Overview {#overview}
 
 
-ToDo:
-
-* Data acquisition
+1. [Data acquisition](#data)
     + UAV flights
     + delineation
     + download link
-* scripts
+2. [Prepare the data](#prep)
     + tiling
+3. [CNN-based mapping](#CNN)
     + unet
     + prediction / evaluation
 
@@ -36,4 +38,8 @@ ToDo:
 
 <br><br>
 
-# Data preparation {#preparation}
+# Data preparation {#prep}
+
+<br><br>
+
+# U-net CNN {#CNN}
