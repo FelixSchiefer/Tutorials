@@ -99,8 +99,11 @@ lines(AOI, col = "red", lwd = 3)
 lines(deadwood, col = "yellow", lwd = 2)
 ```
 
+<center>
+
 ![](deadwood_files/figure-html/crop-and-plot.png)
 
+</center>
 
 ### Tiling {#tile}
 
@@ -140,8 +143,12 @@ XYpos <- cbind(XYpos[,1] - kernelSizeX/2,
                XYpos[,2] + kernelSizeY/2)
 ```
 
+
+<center>
+
 ![](deadwood_files/figure-html/sample-positions.png)
 
+</center>
 
 ```{r mask, eval = FALSE}
 bg            <- AOI
@@ -159,7 +166,11 @@ if(!is.null(deadwood)) {
 plot(mask, col = mask$species_ID+7)
 ```
 
+<center>
+
 ![](deadwood_files/figure-html/mask-1.png)
+
+</center>
 
 ```{r tiling, eval = FALSE}
 
@@ -181,8 +192,10 @@ for(i in 1:nrow(XYpos)) {
     polyCropR  <- rasterize(polyCrop, uavCrop[[1]], field = polyCrop$species_ID)
     
     NAidx      <- which(is.na(values(polyCropR)))
-    flagPolyNA <- length(NAidx) < 2500 # TRUE if NAValues exist AND no less then 2500 (50*50 pixel = 1m2) in crop
-    flagOrtho  <- length(which(is.na(values(uavCrop[[1]])) == TRUE)) == 0 # TRUE if no NA in crop
+    flagPolyNA <- length(NAidx) < 2500
+    # TRUE if NAValues exist AND no less then 2500 (50*50 pixel = 1m2) in crop
+    flagOrtho  <- length(which(is.na(values(uavCrop[[1]])) == TRUE)) == 0
+    # TRUE if no NA in crop
   } else {
     flagPolyNA <- flagOrtho <- FALSE
   }
@@ -200,7 +213,8 @@ for(i in 1:nrow(XYpos)) {
       top  <- rows-floor(40/2); top[top < 1] = 1
       
       for(k in 1:length(NAidx)) {
-        vals                <- getValuesBlock(polyCropR, row = top[k], nrow = 40, col = left[k], ncol = 40)
+        vals                <- getValuesBlock(polyCropR, row = top[k],
+                                              nrow = 40, col = left[k], ncol = 40)
         polyCropR[NAidx[k]] <- as.numeric(names(table(vals)[1]))
       }
     }
@@ -226,17 +240,23 @@ for(i in 1:nrow(XYpos)) {
 
 To check if everything went well, we can read some of the extracted tiles and plot them together with the mask.
 
-```{r check-tiling, eval = FALSE}
+```{r check-tiling, eval = FALSE, fig.height=4, fig.width=8}
 library(raster)
 
 img <- stack("C:/Users/FeSch/Desktop/TutTest/img/S001_img297.png")
 msk <- raster("C:/Users/FeSch/Desktop/TutTest/msk/S001_msk297.png")
 
-par(mfrow = c(1,2), mar = c(.5,1,.5,1))
+par(mfrow = c(1,2), mar = c(0,1,0,1))
 plotRGB(img)
 plot(as.raster(msk))
 
 ```
+
+<center>
+
+![](deadwood_files/figure-html/check-tiling-1.png)
+
+</center>
 
 ### Data spliting {#split}
 

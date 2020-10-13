@@ -456,7 +456,9 @@ endCluster()
 plotRGB(uav)
 lines(AOI, col = &quot;red&quot;, lwd = 3)
 lines(deadwood, col = &quot;yellow&quot;, lwd = 2)</code></pre>
+<center>
 <p><img src="deadwood_files/figure-html/crop-and-plot.png" /></p>
+</center>
 <div id="tile" class="section level3">
 <h3>Tiling</h3>
 <p>Due to memory limitations of the CPU or GPU we cannot train our CNN with the entire orthomosaic. Therefore, we first need to segment the orthomosaic into smaller tiles. For each RGB tile also the corresponding deadwood mask is required.</p>
@@ -491,7 +493,9 @@ XYpos &lt;- cbind(XYpos[,1] - kernelSizeX/2,
                XYpos[,1] + kernelSizeX/2,
                XYpos[,2] - kernelSizeY/2,
                XYpos[,2] + kernelSizeY/2)</code></pre>
+<center>
 <p><img src="deadwood_files/figure-html/sample-positions.png" /></p>
+</center>
 <pre class="r"><code>bg            &lt;- AOI
 bg$species_ID &lt;- 0
 bg@data       &lt;- data.frame(species_ID = bg@data$species_ID, row.names = rownames(bg@data))
@@ -505,7 +509,9 @@ if(!is.null(deadwood)) {
 }
 
 plot(mask, col = mask$species_ID+7)</code></pre>
+<center>
 <p><img src="deadwood_files/figure-html/mask-1.png" /></p>
+</center>
 <pre class="r"><code>site   &lt;- paste0(&quot;S&quot;, sprintf(&quot;%03d&quot;, 1))
 outDir &lt;- &quot;C:/Users/FeSch/Desktop/TutTest/&quot;
 
@@ -524,8 +530,10 @@ for(i in 1:nrow(XYpos)) {
     polyCropR  &lt;- rasterize(polyCrop, uavCrop[[1]], field = polyCrop$species_ID)
     
     NAidx      &lt;- which(is.na(values(polyCropR)))
-    flagPolyNA &lt;- length(NAidx) &lt; 2500 # TRUE if NAValues exist AND no less then 2500 (50*50 pixel = 1m2) in crop
-    flagOrtho  &lt;- length(which(is.na(values(uavCrop[[1]])) == TRUE)) == 0 # TRUE if no NA in crop
+    flagPolyNA &lt;- length(NAidx) &lt; 2500
+    # TRUE if NAValues exist AND no less then 2500 (50*50 pixel = 1m2) in crop
+    flagOrtho  &lt;- length(which(is.na(values(uavCrop[[1]])) == TRUE)) == 0
+    # TRUE if no NA in crop
   } else {
     flagPolyNA &lt;- flagOrtho &lt;- FALSE
   }
@@ -543,7 +551,8 @@ for(i in 1:nrow(XYpos)) {
       top  &lt;- rows-floor(40/2); top[top &lt; 1] = 1
       
       for(k in 1:length(NAidx)) {
-        vals                &lt;- getValuesBlock(polyCropR, row = top[k], nrow = 40, col = left[k], ncol = 40)
+        vals                &lt;- getValuesBlock(polyCropR, row = top[k],
+                                              nrow = 40, col = left[k], ncol = 40)
         polyCropR[NAidx[k]] &lt;- as.numeric(names(table(vals)[1]))
       }
     }
@@ -570,9 +579,12 @@ for(i in 1:nrow(XYpos)) {
 img &lt;- stack(&quot;C:/Users/FeSch/Desktop/TutTest/img/S001_img297.png&quot;)
 msk &lt;- raster(&quot;C:/Users/FeSch/Desktop/TutTest/msk/S001_msk297.png&quot;)
 
-par(mfrow = c(1,2), mar = c(.5,1,.5,1))
+par(mfrow = c(1,2), mar = c(0,1,0,1))
 plotRGB(img)
 plot(as.raster(msk))</code></pre>
+<center>
+<p><img src="deadwood_files/figure-html/check-tiling-1.png" /></p>
+</center>
 </div>
 <div id="split" class="section level3">
 <h3>Data spliting</h3>
