@@ -425,7 +425,9 @@ The data used in this tutorial can be found <a href="https://bwstaff-my.sharepoi
 </div>
 <div id="prep" class="section level1">
 <h1>Data preparation</h1>
-<p>To begin, we first need to load our data:</p>
+<p>To begin, we first need to load the required packages and functions:</p>
+<pre class="r"><code>pkgs &lt;- c(&quot;raster&quot;, &quot;rgdal&quot;)
+sapply(pkgs, require, character.only = TRUE)</code></pre>
 <pre class="r"><code>dataDir  &lt;- &quot;C:/Users/FeSch/Desktop/TutTest/&quot;
 sites    &lt;- list.files(path = dataDir, pattern = &quot;tif&quot;, recursive = T, full.names = T)
 
@@ -437,17 +439,142 @@ AOI      &lt;- rgdal::readOGR(dsn = &quot;C:/Users/FeSch/Desktop/TutTest/sites/s
 
 # load deadwood delineation
 deadwood &lt;- rgdal::readOGR(dsn = &quot;C:/Users/FeSch/Desktop/TutTest/delineation/poly_deadwood.shp&quot;)</code></pre>
-<p>We crop the raster stack to the AOI and plot the results.</p>
-<pre class="r"><code>AOI1 &lt;- AOI[AOI$plot_no == AOI$plot_no[1], ]
+<p>We crop the raster stack to the area of interest and plot the results.</p>
+<pre class="r"><code># AOI &lt;- AOI[AOI$plot_no == AOI$plot_no[1], ]
 
-uav  &lt;- raster::crop(uav, AOI1)
+uav  &lt;- crop(uav, AOI)
 
-plotRGB(uav, stretch = &quot;lin&quot;)
-lines(AOI1, col = &quot;red&quot;, lwd = 3)
+# histogram stretch 
+q   &lt;- quantile(uav, probs = c(.001, .999))
+uav &lt;- (uav - min(q[,1])) * 255 / (max(q[,2]) - min(q[,1]))
+beginCluster()
+uav &lt;- clusterR(uav, fun = reclassify, args = list(rcl = c(-Inf,0,0, 255,Inf,255)),
+                datatype = &quot;INT1U&quot;)
+endCluster()
+
+# plot
+plotRGB(uav)
+lines(AOI, col = &quot;red&quot;, lwd = 3)
 lines(deadwood, col = &quot;yellow&quot;, lwd = 2)</code></pre>
 <p><img src="deadwood_files/figure-html/crop-and-plot.png" /></p>
 <div id="tile" class="section level3">
 <h3>Tiling</h3>
+<p>Due to memory limitations of the CPU or GPU we cannot train our CNN with the entire orthomosaic. Therefore, we first need to segment the orthomosaic into smaller tiles. For each RGB tile also the corresponding deadwood mask is required.</p>
+<pre class="r"><code>library(raster)
+
+# define kernel size
+tilesize &lt;- 512L
+
+kernelSizeX &lt;- tilesize * xres(uav)
+kernelSizeY &lt;- tilesize * yres(uav)
+
+# create sample positions
+xOffset &lt;- (ncol(uav)/1024 - floor(ncol(uav)/1024))/2 * 1024 * xres(uav)
+yOffset &lt;- (nrow(uav)/1024 - floor(nrow(uav)/1024))/2 * 1024 * yres(uav)
+    
+x &lt;- seq(extent(uav)[1] + kernelSizeX/2 + xOffset,
+         extent(uav)[2] - kernelSizeX/2 - xOffset,
+         kernelSizeX)
+y &lt;- seq(extent(uav)[3] + kernelSizeY/2 + yOffset,
+         extent(uav)[4] - kernelSizeY/2 - yOffset,
+         kernelSizeY)
+
+XYpos &lt;- expand.grid(x, y)
+XYpos &lt;- SpatialPointsDataFrame(coords = XYpos, proj4string = crs(AOI), data = XYpos)
+XYpos &lt;- XYpos[AOI,]
+
+# superimpose the sample positions on the previous plot
+points(XYpos, pch = 3, col = &quot;orange&quot;)
+
+XYpos &lt;- as.data.frame(XYpos)[,c(1,2)]
+XYpos &lt;- cbind(XYpos[,1] - kernelSizeX/2,
+               XYpos[,1] + kernelSizeX/2,
+               XYpos[,2] - kernelSizeY/2,
+               XYpos[,2] + kernelSizeY/2)</code></pre>
+<p><img src="deadwood_files/figure-html/sample-positions.png" /></p>
+<p>Prepare the binary mask.</p>
+<pre class="r"><code>bg            &lt;- AOI
+bg$species_ID &lt;- 0
+bg@data       &lt;- data.frame(species_ID = bg@data$species_ID, row.names = rownames(bg@data))
+if(!is.null(deadwood)) {
+  bg        &lt;- erase(bg, deadwood)
+  mask      &lt;- union(bg, deadwood)
+  mask$species_ID.1[!is.na(mask$species_ID.2)] &lt;- mask$species_ID.2[!is.na(mask$species_ID.2)]
+  mask@data &lt;- data.frame(species_ID = mask@data[,1])
+} else {
+  mask      &lt;- bg
+}
+
+plot(mask, col = mask$species_ID+7)</code></pre>
+<p><img src="deadwood_files/figure-html/mask-1.png" /></p>
+<pre class="r"><code>site   &lt;- paste0(&quot;S&quot;, sprintf(&quot;%03d&quot;, 1))
+outDir &lt;- &quot;C:/Users/FeSch/Desktop/TutTest/&quot;
+
+for(i in 1:nrow(XYpos)) {
+  
+  cropExt &lt;- extent(XYpos[i,])
+  
+  # crop orthomosaic
+  uavCrop &lt;- crop(uav, cropExt)
+  uavCrop &lt;- crop(uavCrop, extent(uavCrop, 1, tilesize, 1, tilesize)) # remove rounding artifacts
+  
+  # crop mask
+  polyCrop &lt;- crop(mask, cropExt)
+  
+  if(length(polyCrop) &gt; 0) { # rasterize shapefile if polygons exist 
+    polyCropR  &lt;- rasterize(polyCrop, uavCrop[[1]], field = polyCrop$species_ID)
+    
+    NAidx      &lt;- which(is.na(values(polyCropR)))
+    flagPolyNA &lt;- length(NAidx) &lt; 2500 # TRUE if NAValues exist AND no less then 2500 (50*50 pixel = 1m2) in crop
+    flagOrtho  &lt;- length(which(is.na(values(uavCrop[[1]])) == TRUE)) == 0 # TRUE if no NA in crop
+  } else {
+    flagPolyNA &lt;- flagOrtho &lt;- FALSE
+  }
+  
+  
+  if(flagOrtho &amp;&amp; flagPolyNA) {
+    
+    # fill NA values
+    if(length(NAidx) &gt; 0) {
+      
+      rows &lt;- rowFromCell(polyCropR, NAidx)
+      cols &lt;- colFromCell(polyCropR, NAidx)
+      
+      left &lt;- cols-floor(40/2); left[left &lt; 1] = 1
+      top  &lt;- rows-floor(40/2); top[top &lt; 1] = 1
+      
+      for(k in 1:length(NAidx)) {
+        vals                &lt;- getValuesBlock(polyCropR, row = top[k], nrow = 40, col = left[k], ncol = 40)
+        polyCropR[NAidx[k]] &lt;- as.numeric(names(table(vals)[1]))
+      }
+    }
+    
+    extent(uavCrop)   &lt;- extent(0, kernelSizeX, 0, kernelSizeY)
+    extent(polyCropR) &lt;- extent(0, kernelSizeX, 0, kernelSizeY)
+    
+    uavCrop   &lt;- as.array(uavCrop)
+    polyCropR &lt;- as.array(polyCropR)
+    
+    uavCrop   &lt;- magick::image_read(uavCrop / 255)
+    polyCropR &lt;- magick::image_read(polyCropR / 255)
+    
+    imgName &lt;- paste0(outDir, &quot;img/&quot;, site, &quot;_img&quot;, sprintf(&quot;%03d&quot;, i), &quot;.png&quot;)
+    mskName &lt;- paste0(outDir, &quot;msk/&quot;, site, &quot;_msk&quot;, sprintf(&quot;%03d&quot;, i), &quot;.png&quot;)
+    magick::image_write(uavCrop, format = &quot;png&quot;, path = imgName)
+    magick::image_write(polyCropR, format = &quot;png&quot;, path = mskName)
+    
+    }
+}</code></pre>
+<p>To check if everything went well, we can read some of the extracted tiles and plot them together with the mask.</p>
+<pre class="r"><code>library(raster)</code></pre>
+<pre><code>## Loading required package: sp</code></pre>
+<pre class="r"><code>img &lt;- stack(&quot;C:/Users/FeSch/Desktop/TutTest/img/S001_img297.png&quot;)
+msk &lt;- raster(&quot;C:/Users/FeSch/Desktop/TutTest/msk/S001_msk297.png&quot;)
+
+par(mfrow = c(1,2), mar = c(.5,1,.5,1))
+plotRGB(img)
+plot(as.raster(msk))</code></pre>
+<p><img src="deadwood_files/figure-html/check-tiling-1.png" width="672" /></p>
 </div>
 <div id="split" class="section level3">
 <h3>Data spliting</h3>
