@@ -98,6 +98,7 @@ plotRGB(uav)
 lines(AOI, col = "red", lwd = 3)
 lines(deadwood, col = "yellow", lwd = 2)
 ```
+
 ![](deadwood_files/figure-html/crop-and-plot.png)
 
 
@@ -141,7 +142,6 @@ XYpos <- cbind(XYpos[,1] - kernelSizeX/2,
 
 ![](deadwood_files/figure-html/sample-positions.png)
 
-Prepare the binary mask.
 
 ```{r mask, eval = FALSE}
 bg            <- AOI
@@ -226,7 +226,7 @@ for(i in 1:nrow(XYpos)) {
 
 To check if everything went well, we can read some of the extracted tiles and plot them together with the mask.
 
-```{r check-tiling}
+```{r check-tiling, eval = FALSE}
 library(raster)
 
 img <- stack("C:/Users/FeSch/Desktop/TutTest/img/S001_img297.png")

@@ -492,7 +492,6 @@ XYpos &lt;- cbind(XYpos[,1] - kernelSizeX/2,
                XYpos[,2] - kernelSizeY/2,
                XYpos[,2] + kernelSizeY/2)</code></pre>
 <p><img src="deadwood_files/figure-html/sample-positions.png" /></p>
-<p>Prepare the binary mask.</p>
 <pre class="r"><code>bg            &lt;- AOI
 bg$species_ID &lt;- 0
 bg@data       &lt;- data.frame(species_ID = bg@data$species_ID, row.names = rownames(bg@data))
@@ -566,15 +565,14 @@ for(i in 1:nrow(XYpos)) {
     }
 }</code></pre>
 <p>To check if everything went well, we can read some of the extracted tiles and plot them together with the mask.</p>
-<pre class="r"><code>library(raster)</code></pre>
-<pre><code>## Loading required package: sp</code></pre>
-<pre class="r"><code>img &lt;- stack(&quot;C:/Users/FeSch/Desktop/TutTest/img/S001_img297.png&quot;)
+<pre class="r"><code>library(raster)
+
+img &lt;- stack(&quot;C:/Users/FeSch/Desktop/TutTest/img/S001_img297.png&quot;)
 msk &lt;- raster(&quot;C:/Users/FeSch/Desktop/TutTest/msk/S001_msk297.png&quot;)
 
 par(mfrow = c(1,2), mar = c(.5,1,.5,1))
 plotRGB(img)
 plot(as.raster(msk))</code></pre>
-<p><img src="deadwood_files/figure-html/check-tiling-1.png" width="672" /></p>
 </div>
 <div id="split" class="section level3">
 <h3>Data spliting</h3>
